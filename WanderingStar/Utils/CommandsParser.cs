@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using WanderingStar.Core;
+using WanderingStar.Enums;
 
 namespace WanderingStar
 {
@@ -11,7 +13,7 @@ namespace WanderingStar
             { CommandType.End, "-end" },
         };
 
-        public bool TryReadStartCommandFromConsole(out StarParameters starParameters)
+        public bool TryReadStartCommandFromConsole(out GameParameters starParameters)
         {
             Console.WriteLine("Please enter the start command: " +
                 "\n-start\n" +
@@ -30,9 +32,9 @@ namespace WanderingStar
             return true;
         }
 
-        public StarParameters ParseStart(string commandLine)
+        public GameParameters ParseStart(string commandLine)
         {
-            StarParameters starParameters = new StarParameters();
+            GameParameters starParameters = new GameParameters();
             string[] parameters = commandLine.Split();
             if (parameters[0] != commandsKeys[CommandType.Start] || parameters.Length > 4)
             {

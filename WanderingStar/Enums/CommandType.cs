@@ -1,8 +1,9 @@
-﻿namespace WanderingStar
+﻿namespace WanderingStar.Enums
 {
     public enum CommandType
     {
         Start,
-        End
+        End,
+        Move
     }
 }

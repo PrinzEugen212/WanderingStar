@@ -1,7 +1,8 @@
-﻿namespace WanderingStar
+﻿namespace WanderingStar.Enums
 {
     public enum Direction
     {
+        None,
         Up,
         Down,
         Left,

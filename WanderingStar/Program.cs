@@ -1,68 +1,42 @@
 ﻿using System;
-using System.Threading;
+using WanderingStar.Core;
 
 namespace WanderingStar
 {
     public class Program
     {
+
         static void Main(string[] args)
         {
-            StarParameters starParameters = new StarParameters();
-            Console.WriteLine("You can control the star usind WASD buttons");
+            GameParameters gameParameters;
+
+            Console.WriteLine("You can control the star using WASD buttons");
             CommandsParser parser = new CommandsParser();
-            while (!parser.TryReadStartCommandFromConsole(out starParameters))
+
+            while (!parser.TryReadStartCommandFromConsole(out gameParameters))
             {
                 Console.WriteLine("Invalid command syntax");
             }
+
             Console.CursorVisible = false;
             Console.Clear();
-            StartDrawing(starParameters);
-        }
 
-        private static void WriteByCoordinates(int x, int y, string output)
-        {
-            Console.SetCursorPosition(x, y);
-            Console.Write(output);
-        }
+            Symbol symbol = new Symbol(new Coordinate(0, 0));
+            ConsoleRender consoleRender = new ConsoleRender();
+            DirectionReader directionReader = new DirectionReader(new KeyParser());
+            Game game = new Game(gameParameters, symbol, directionReader, consoleRender);
 
-        private static void StartDrawing(StarParameters starParameters)
-        {
-            DirectionReader reader = new DirectionReader();
-            int x = 0, y = 0;
-            reader.Run();
-            while (true)
+            directionReader.CommandAppeared += (sender, type) =>
             {
-                if (starParameters.DeletePrevious)
+                if (type == Enums.CommandType.End)
                 {
-                    WriteByCoordinates(x, y, " ");
+                    game.IsRunning = false;
+                    directionReader.Dispose();
                 }
+            };
 
-                switch (reader.Direction)
-                {
-                    case Direction.Left: x--; break;
-                    case Direction.Right: x++; break;
-                    case Direction.Up: y--; break;
-                    case Direction.Down: y++; break;
-                }
-
-                if (x < 0)
-                {
-                    x = 0;
-                }
-
-                if (x >= Console.WindowWidth)
-                {
-                    x = Console.WindowWidth - 1;
-                }
-
-                if (y < 0)
-                {
-                    y = 0;
-                }
-
-                WriteByCoordinates(x, y, "*");
-                Thread.Sleep(starParameters.WaitTime);
-            }
+            directionReader.Run();
+            game.StartDrawing();
         }
     }
 }
