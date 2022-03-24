@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace WanderingStar
 {
@@ -6,37 +7,36 @@ namespace WanderingStar
     {
         static void Main(string[] args)
         {
-            Reader reader = new Reader();
-            int x = 0, y = 0, waitTime;
-            bool deletePrevious = true;
+            StarParameters starParameters = new StarParameters();
             Console.WriteLine("You can control the star usind WASD buttons");
-            Console.WriteLine("Enter writing cooldown (in ms) and '1' if it not needed to delete previous symbol: ");
-            while (true)
+            CommandsParser parser = new CommandsParser();
+            while (!parser.TryReadStartCommandFromConsole(out starParameters))
             {
-                try
-                {
-                    string[] command = Console.ReadLine().Split();
-                    waitTime = int.Parse(command[0]);
-                    if (int.Parse(command[1]) == 1)
-                    {
-                        deletePrevious = false;
-                    }
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Incorrect command - {ex.Message}");
-                }
+                Console.WriteLine("Invalid command syntax");
             }
             Console.CursorVisible = false;
             Console.Clear();
+            StartDrawing(starParameters);
+        }
+
+        private static void WriteByCoordinates(int x, int y, string output)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write(output);
+        }
+
+        private static void StartDrawing(StarParameters starParameters)
+        {
+            DirectionReader reader = new DirectionReader();
+            int x = 0, y = 0;
+            reader.Run();
             while (true)
             {
-                if (deletePrevious)
+                if (starParameters.DeletePrevious)
                 {
-                    Write(ref x, ref y, " ");
+                    WriteByCoordinates(x, y, " ");
                 }
-                reader.Read();
+
                 switch (reader.Direction)
                 {
                     case Direction.Left: x--; break;
@@ -44,28 +44,25 @@ namespace WanderingStar
                     case Direction.Up: y--; break;
                     case Direction.Down: y++; break;
                 }
-                Write(ref x, ref y, "*");
-                System.Threading.Thread.Sleep(waitTime);
-            }
-        }
 
-        private static void Write(ref int x, ref int y, string output)
-        {
-            if (x < 0)
-            {
-                x = 0;
-            }
-            if (x >= Console.WindowWidth)
-            {
-                x = Console.WindowWidth - 1;
-            }
-            if (y < 0)
-            {
-                y = 0;
-            }
+                if (x < 0)
+                {
+                    x = 0;
+                }
 
-            Console.SetCursorPosition(x, y);
-            Console.Write(output);
+                if (x >= Console.WindowWidth)
+                {
+                    x = Console.WindowWidth - 1;
+                }
+
+                if (y < 0)
+                {
+                    y = 0;
+                }
+
+                WriteByCoordinates(x, y, "*");
+                Thread.Sleep(starParameters.WaitTime);
+            }
         }
     }
 }

@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 
 namespace WanderingStar
 {
-    public class Reader
+    public class DirectionReader
     {
         private Direction direction;
 
-        public Reader()
+        public DirectionReader()
         {
             direction = Direction.Right;
         }
@@ -18,7 +18,7 @@ namespace WanderingStar
             private set { direction = value; }
         }
 
-        public Direction GetDirection(ConsoleKey key)
+        private Direction GetDirection(ConsoleKey key)
         {
             switch (key)
             {
@@ -26,18 +26,21 @@ namespace WanderingStar
                 case ConsoleKey.S: return Direction.Down;
                 case ConsoleKey.W: return Direction.Up;
                 case ConsoleKey.D: return Direction.Right;
-                default: return Direction.Right;
             }
+
+            return Direction.Right;
         }
 
-        public void Read()
+        public void Run()
         {
             Task.Run(() =>
             {
-                ConsoleKey key = Console.ReadKey(true).Key;
-                direction = GetDirection(key);
+                while (true)
+                {
+                    ConsoleKey key = Console.ReadKey(true).Key;
+                    direction = GetDirection(key);
+                }
             });
-            //return Direction.None;
         }
     }
 }
