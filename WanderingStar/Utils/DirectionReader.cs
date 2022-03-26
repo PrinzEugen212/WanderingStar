@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using WanderingStar.Enums;
 using WanderingStar.Interfaces;
 
-namespace WanderingStar
+namespace WanderingStar.Utils
 {
     public class DirectionReader : IDirection, IDisposable
     {

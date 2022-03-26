@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WanderingStar.Core;
 using WanderingStar.Interfaces;
 
-namespace WanderingStar
+namespace WanderingStar.Utils
 {
     public class ConsoleRender : IRender
     {

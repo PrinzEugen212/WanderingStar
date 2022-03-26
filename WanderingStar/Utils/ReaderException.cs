@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WanderingStar
+namespace WanderingStar.Utils
 {
     public class ReaderNotRunningException : Exception
     {

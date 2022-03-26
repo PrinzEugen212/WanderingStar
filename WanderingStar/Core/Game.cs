@@ -11,6 +11,7 @@ namespace WanderingStar.Core
         private Symbol symbol;
         private IDirection reader;
         private IRender render;
+        private Direction previousDirection;
 
         public bool IsRunning { get; set; } = false;
 
@@ -37,7 +38,10 @@ namespace WanderingStar.Core
                 {
                     symbol.Coordinate = newCoordinate;
                 }
-
+                if (reader.Direction != Direction.None)
+                {
+                    previousDirection = reader.Direction;
+                }
                 render.WriteByCoordinates(symbol.Coordinate, symbol.symbol);
                 Thread.Sleep(parameters.WaitTime);
             }
@@ -57,10 +61,21 @@ namespace WanderingStar.Core
                 case Direction.Right: newCoordinate.X++; break;
                 case Direction.Up: newCoordinate.Y--; break;
                 case Direction.Down: newCoordinate.Y++; break;
-                case Direction.None: break;
+                case Direction.None: ContinueSymbolMoving(newCoordinate); break;
             }
-
             return newCoordinate;
+        }
+
+        private void ContinueSymbolMoving(Coordinate coordinate)
+        {
+            switch (previousDirection)
+            {
+                case Direction.Left: coordinate.X--; break;
+                case Direction.Right: coordinate.X++; break;
+                case Direction.Up: coordinate.Y--; break;
+                case Direction.Down: coordinate.Y++; break;
+                case Direction.None: throw new Exception("Direction was None");
+            }
         }
     }
 }

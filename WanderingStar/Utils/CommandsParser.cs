@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using WanderingStar.Core;
 using WanderingStar.Enums;
 
-namespace WanderingStar
+namespace WanderingStar.Utils
 {
     public class CommandsParser
     {
