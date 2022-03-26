@@ -1,16 +1,17 @@
 ﻿namespace WanderingStar.Core
 {
-    public class GameParameters
+    public class Parameters
     {
-        public GameParameters() { }
+        public Parameters() { }
 
-        public GameParameters(int waitTime, bool deletePrevious)
+        public Parameters(int waitTime, bool deletePrevious)
         {
             WaitTime = waitTime;
             DeletePrevious = deletePrevious;
         }
 
-        public int WaitTime { get; set; }
         public bool DeletePrevious { get; set; }
+
+        public int WaitTime { get; set; }
     }
 }
