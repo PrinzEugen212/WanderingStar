@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
-using WanderingStar.Core;
 using WanderingStar.Interfaces;
 
 namespace WanderingStar.Utils
@@ -26,10 +24,6 @@ namespace WanderingStar.Utils
                 if (CheckCoordinate())
                 {
                     WriteByCoordinates();
-                }
-                else
-                {
-                    throw new Exception("Incorrect coordinate");
                 }
 
                 Thread.Sleep(waitTime);
