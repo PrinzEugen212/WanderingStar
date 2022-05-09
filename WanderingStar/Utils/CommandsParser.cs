@@ -13,7 +13,7 @@ namespace WanderingStar.Utils
             { CommandType.End, "-end" },
         };
 
-        public bool TryReadStartCommandFromConsole(out GameParameters starParameters)
+        public bool TryReadStartCommandFromConsole(out Parameters starParameters)
         {
             Console.WriteLine("Please enter the start command: " +
                 "\n-start\n" +
@@ -32,9 +32,9 @@ namespace WanderingStar.Utils
             return true;
         }
 
-        public GameParameters ParseStart(string commandLine)
+        public Parameters ParseStart(string commandLine)
         {
-            GameParameters starParameters = new GameParameters();
+            Parameters starParameters = new Parameters();
             string[] parameters = commandLine.Split();
             if (parameters[0] != commandsKeys[CommandType.Start] || parameters.Length > 4)
             {

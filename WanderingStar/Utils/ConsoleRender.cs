@@ -1,23 +1,61 @@
 ﻿using System;
-using WanderingStar.Core;
+using System.Threading;
 using WanderingStar.Interfaces;
 
 namespace WanderingStar.Utils
 {
     public class ConsoleRender : IRender
     {
-        public int MaxWidth => Console.WindowWidth;
+        private IRenderable objectToRender;
+        private int waitTime = 0;
 
-        public void WriteByCoordinates(Coordinate coordinate, char output)
+        public ConsoleRender(IRenderable objectToRender, int waitTime)
         {
-            Console.SetCursorPosition(coordinate.X, coordinate.Y);
-            Console.Write(output);
+            this.objectToRender = objectToRender;
+            objectToRender.NeedToClearPosition += ClearPosition;
+            this.waitTime = waitTime;
         }
 
-        public void ClearPosition(Coordinate coordinate)
+        public void StartRender()
         {
-            Console.SetCursorPosition(coordinate.X, coordinate.Y);
-            Console.Write(' ');
+            while (objectToRender.RenderCondition)
+            {
+                objectToRender.ProcessNextIteration();
+                if (CheckCoordinate())
+                {
+                    WriteByCoordinates();
+                }
+
+                Thread.Sleep(waitTime);
+            }
+        }
+
+        public int MaxWidth => Console.WindowWidth;
+
+        public object ObjectToRender => objectToRender;
+
+        public void WriteByCoordinates()
+        {
+            Console.SetCursorPosition(objectToRender.RenderCoordinate.X, objectToRender.RenderCoordinate.Y);
+            Console.Write(objectToRender.ObjectToRender);
+        }
+
+        public void ClearPosition(object sender, EventArgs e)
+        {
+            if (CheckCoordinate())
+            {
+                Console.SetCursorPosition(objectToRender.RenderCoordinate.X, objectToRender.RenderCoordinate.Y);
+                Console.Write(' ');
+            }
+            else
+            {
+                throw new Exception("Incorrect coordinate");
+            }
+        }
+
+        private bool CheckCoordinate()
+        {
+            return !(objectToRender.RenderCoordinate.X < 0 || objectToRender.RenderCoordinate.X >= MaxWidth || objectToRender.RenderCoordinate.Y < 0);
         }
     }
 }

@@ -1,13 +1,13 @@
-﻿using WanderingStar.Core;
+﻿using System;
 
 namespace WanderingStar.Interfaces
 {
     public interface IRender
     {
-        int MaxWidth { get; }
+        object ObjectToRender { get; }
 
-        void ClearPosition(Coordinate coordinate);
+        void ClearPosition(object sender, EventArgs eventArgs);
 
-        void WriteByCoordinates(Coordinate coordinate, char output);
+        void WriteByCoordinates();
     }
 }

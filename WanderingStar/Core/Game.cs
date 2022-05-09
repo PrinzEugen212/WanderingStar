@@ -1,56 +1,39 @@
 ﻿using System;
-using System.Threading;
 using WanderingStar.Enums;
 using WanderingStar.Interfaces;
 
 namespace WanderingStar.Core
 {
-    public class Game
+    public class Game : IRenderable
     {
-        private GameParameters parameters;
+        private Parameters parameters;
         private Symbol symbol;
         private IDirection reader;
-        private IRender render;
         private Direction previousDirection;
+
+        public event EventHandler NeedToClearPosition;
 
         public bool IsRunning { get; set; } = false;
 
-        public Game(GameParameters parameters, Symbol symbol, IDirection reader, IRender render)
+        public bool RenderCondition => IsRunning;
+
+        public object ObjectToRender => symbol.symbol;
+
+        public Coordinate RenderCoordinate => symbol.Coordinate;
+
+        public Game(Parameters parameters, Symbol symbol, IDirection reader)
         {
             this.parameters = parameters;
             this.symbol = symbol;
             this.reader = reader;
-            this.render = render;
         }
 
-        public void StartDrawing()
+        public void Start()
         {
             IsRunning = true;
-            while (IsRunning)
-            {
-                if (parameters.DeletePrevious)
-                {
-                    render.ClearPosition(symbol.Coordinate);
-                }
-
-                Coordinate newCoordinate = MoveSymbol(symbol.Coordinate);
-                if (CheckCoordinate(newCoordinate))
-                {
-                    symbol.Coordinate = newCoordinate;
-                }
-                if (reader.Direction != Direction.None)
-                {
-                    previousDirection = reader.Direction;
-                }
-                render.WriteByCoordinates(symbol.Coordinate, symbol.symbol);
-                Thread.Sleep(parameters.WaitTime);
-            }
         }
 
-        private bool CheckCoordinate(Coordinate newCoordinate)
-        {
-            return !(newCoordinate.X < 0 || newCoordinate.X >= render.MaxWidth || newCoordinate.Y < 0);
-        }
+
 
         private Coordinate MoveSymbol(Coordinate coordinate)
         {
@@ -75,6 +58,24 @@ namespace WanderingStar.Core
                 case Direction.Up: coordinate.Y--; break;
                 case Direction.Down: coordinate.Y++; break;
                 case Direction.None: throw new Exception("Direction was None");
+            }
+        }
+
+        public void ProcessNextIteration()
+        {
+            if (IsRunning)
+            {
+                if (parameters.DeletePrevious)
+                {
+                    NeedToClearPosition?.Invoke(this, null);
+                }
+
+                Coordinate newCoordinate = MoveSymbol(symbol.Coordinate);
+                symbol.Coordinate = newCoordinate;
+                if (reader.Direction != Direction.None)
+                {
+                    previousDirection = reader.Direction;
+                }
             }
         }
     }
