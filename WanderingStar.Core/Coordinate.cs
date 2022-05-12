@@ -1,6 +1,8 @@
-﻿namespace WanderingStar.Core
+﻿using WanderingStar.Core.Interfaces;
+
+namespace WanderingStar.Core
 {
-    public class Coordinate
+    public class Coordinate : ICoordinate
     {
         public Coordinate(int x, int y)
         {

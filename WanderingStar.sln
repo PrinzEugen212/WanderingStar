@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WanderingStar", "WanderingStar\WanderingStar.csproj", "{303850B9-64E3-4512-BE85-F8A2B23BF421}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WanderingStar.Server", "WanderingStar\WanderingStar.Server.csproj", "{303850B9-64E3-4512-BE85-F8A2B23BF421}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WanderingStar.Client", "WanderingStar.Server\WanderingStar.Client.csproj", "{38BDC641-3160-40E4-8495-0D0C7693F74A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WanderingStar.Core", "WanderingStar.Core\WanderingStar.Core.csproj", "{DD141B92-36CF-4462-9075-023A875545D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WanderingStar.Start", "WanderingStar.Start\WanderingStar.Start.csproj", "{1A3F18A2-40FD-4484-9134-ACFEF35193A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{303850B9-64E3-4512-BE85-F8A2B23BF421}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{303850B9-64E3-4512-BE85-F8A2B23BF421}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{303850B9-64E3-4512-BE85-F8A2B23BF421}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38BDC641-3160-40E4-8495-0D0C7693F74A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38BDC641-3160-40E4-8495-0D0C7693F74A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38BDC641-3160-40E4-8495-0D0C7693F74A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38BDC641-3160-40E4-8495-0D0C7693F74A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD141B92-36CF-4462-9075-023A875545D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD141B92-36CF-4462-9075-023A875545D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD141B92-36CF-4462-9075-023A875545D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD141B92-36CF-4462-9075-023A875545D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A3F18A2-40FD-4484-9134-ACFEF35193A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A3F18A2-40FD-4484-9134-ACFEF35193A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A3F18A2-40FD-4484-9134-ACFEF35193A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A3F18A2-40FD-4484-9134-ACFEF35193A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

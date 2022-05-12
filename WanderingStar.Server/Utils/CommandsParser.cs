@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using WanderingStar.Core;
-using WanderingStar.Enums;
+using WanderingStar.Core.Enums;
 
-namespace WanderingStar.Utils
+namespace WanderingStar.Client.Utils
 {
     public class CommandsParser
     {
@@ -13,7 +14,7 @@ namespace WanderingStar.Utils
             { CommandType.End, "-end" },
         };
 
-        public bool TryReadStartCommandFromConsole(out Parameters starParameters)
+        public bool TryReadStartCommandFromConsole(out Parameters parameters)
         {
             Console.WriteLine("Please enter the start command: " +
                 "\n-start\n" +
@@ -22,54 +23,74 @@ namespace WanderingStar.Utils
             string commandLine = Console.ReadLine();
             try
             {
-                starParameters = ParseStart(commandLine);
+                parameters = ParseStart(commandLine);
             }
             catch
             {
-                starParameters = null;
+                parameters = null;
                 return false;
             }
+
+            return true;
+        }
+
+        public bool TryParseArguments(string[] args, out Parameters parameters)
+        {
+            try
+            {
+                parameters = ParseStart(args);
+            }
+            catch
+            {
+                parameters = null;
+                return false;
+            }
+
             return true;
         }
 
         public Parameters ParseStart(string commandLine)
         {
-            Parameters starParameters = new Parameters();
-            string[] parameters = commandLine.Split();
-            if (parameters[0] != commandsKeys[CommandType.Start] || parameters.Length > 4)
+            return ParseStart(commandLine.Split());
+        }
+
+        public Parameters ParseStart(string[] arguments)
+        {
+            Parameters parameters = new Parameters();
+            if (arguments[0] != commandsKeys[CommandType.Start] || arguments.Length > 4)
             {
                 throw new ArgumentException("Invalid command");
             }
 
-            if (parameters[1] != "t")
+            if (arguments[1] != "t")
             {
                 throw new ArgumentException("Invalid command");
             }
 
-            if (int.TryParse(parameters[2], out int time))
+            if (int.TryParse(arguments[2], out int time))
             {
-                starParameters.WaitTime = time;
+                parameters.WaitTime = time;
             }
             else
             {
                 throw new ArgumentException("Invalid command");
             }
 
-            if (parameters.Length > 3)
+            if (arguments.Length > 3)
             {
-                if (parameters[3] != "d")
+                if (arguments[3] != "d")
                 {
                     throw new ArgumentException("Invalid command");
                 }
 
-                starParameters.DeletePrevious = true;
+                parameters.DeletePrevious = true;
             }
             else
             {
-                starParameters.DeletePrevious = parameters.Length != 3;
+                parameters.DeletePrevious = arguments.Length != 3;
             }
 
-            return starParameters;
+            return parameters;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace WanderingStar.Enums
+﻿namespace WanderingStar.Core.Enums
 {
     public enum CommandType
     {

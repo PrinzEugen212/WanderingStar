@@ -1,4 +1,4 @@
-﻿using WanderingStar.Enums;
+﻿using WanderingStar.Core.Enums;
 
 namespace WanderingStar.Interfaces
 {

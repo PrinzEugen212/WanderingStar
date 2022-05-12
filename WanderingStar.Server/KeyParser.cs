@@ -1,8 +1,8 @@
 ﻿using System;
-using WanderingStar.Enums;
+using WanderingStar.Core.Enums;
 using WanderingStar.Interfaces;
 
-namespace WanderingStar
+namespace WanderingStar.Client
 {
     public class KeyParser : IKeyParser
     {

@@ -1,7 +1,6 @@
 ﻿using System;
-using WanderingStar.Core;
 
-namespace WanderingStar.Interfaces
+namespace WanderingStar.Core.Interfaces
 {
     public interface IRenderable
     {
@@ -9,7 +8,7 @@ namespace WanderingStar.Interfaces
 
         Object ObjectToRender { get; }
 
-        Coordinate RenderCoordinate { get; }
+        ICoordinate RenderCoordinate { get; }
 
         event EventHandler NeedToClearPosition;
 
