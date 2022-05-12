@@ -33,7 +33,39 @@ namespace WanderingStar.Server
             listenSocket.Bind(listenEndPoint);
             listenSocket.Listen(10);
             Process();
+        }
 
+        private void Process()
+        {
+            Socket handler = listenSocket.Accept();
+
+            Task.Run(() =>
+            {
+                while (IsRunning)
+                {
+                    MoveSymbol();
+                    byte[] data = Encoding.Unicode.GetBytes($"{coordinate.X} {coordinate.Y}");
+                    handler.Send(data);
+                    Thread.Sleep(waitTime);
+                }
+            });
+
+            while (IsRunning)
+            {
+                StringBuilder builder = new StringBuilder();
+                do
+                {
+                    byte[] data = new byte[256];
+                    int bytes = handler.Receive(data);
+                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                }
+                while (handler.Available > 0);
+
+                if (builder.Length > 0)
+                {
+                    ChangeDirection(builder.ToString());
+                }
+            }
         }
 
         private void MoveSymbol()
@@ -53,41 +85,7 @@ namespace WanderingStar.Server
 
         private void ChangeDirection(string direction)
         {
-            this.direction = (Direction)Enum.Parse(typeof(Direction), direction);
-        }
-
-        public void Process()
-        {
-            Socket handler = listenSocket.Accept();
-
-            Task.Run(() =>
-            {
-                while (IsRunning)
-                {
-                    MoveSymbol();
-                    byte[] data = Encoding.Unicode.GetBytes($"{coordinate.X} {coordinate.Y}");
-                    handler.Send(data);
-                    Thread.Sleep(waitTime);
-                }
-            });
-
-            while (IsRunning)
-            {
-                StringBuilder builder = new StringBuilder();
-                byte[] data = new byte[256];
-
-                do
-                {
-                    int bytes = handler.Receive(data);
-                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                }
-                while (handler.Available > 0);
-
-                if (builder.Length > 0)
-                {
-                    ChangeDirection(builder.ToString());
-                }
-            }
+            this.direction = Enum.Parse<Direction>(direction);
         }
     }
 }

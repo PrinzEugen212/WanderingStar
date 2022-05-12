@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WanderingStar.Core\WanderingStar.Core.csproj" />
-    <ProjectReference Include="..\WanderingStar\WanderingStar.Server.csproj" />
+    <ProjectReference Include="..\WanderingStar.Server\WanderingStar.Server.csproj" />
   </ItemGroup>
 
 </Project>

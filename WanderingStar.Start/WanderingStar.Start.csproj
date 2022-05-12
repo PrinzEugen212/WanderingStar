@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WanderingStar.Server\WanderingStar.Client.csproj" />
-    <ProjectReference Include="..\WanderingStar\WanderingStar.Server.csproj" />
+    <ProjectReference Include="..\WanderingStar.Client\WanderingStar.Client.csproj" />
+    <ProjectReference Include="..\WanderingStar.Server\WanderingStar.Server.csproj" />
   </ItemGroup>
 
 </Project>
